@@ -3,7 +3,7 @@ Zero Downtime in Go App
 Tags: golang
 
 Yoshiki Nakagawa
-Web Engineer, eureka, inc
+Web Engineer
 yyoshiki41@gmail.com
 https://github.com/yyoshiki41
 http://esola.co
@@ -13,3 +13,6 @@ http://esola.co
 - Graceful Restart
 - Goji combined with Einhorn
 - Revel combined with go-server-starter
+
+* Deploy Go App
+.image images/blue-green.png
