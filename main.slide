@@ -1,18 +1,129 @@
-Zero Downtime in Go App
-7 Dec 2015
-Tags: golang
+Graceful Upgrade for Go App
+Go Conference 2015 Winter
+Tags: golang, graceful update
 
 Yoshiki Nakagawa
-Web Engineer
+Infrastructure Engineer
+eureka, Inc.
 yyoshiki41@gmail.com
 https://github.com/yyoshiki41
 http://esola.co
 
 * Agenda
-- Deploy Go App without downtime
-- Graceful Restart
-- Goji combined with Einhorn
-- Revel combined with go-server-starter
+- Deploy Go App without Downtime
+- Graceful Upgrade
+- Goji running under Einhorn
+- facebookgo/grace
+- facebookgo/httpdown combined with Einhorn
 
-* Deploy Go App
-.image images/blue-green.png
+* Deploy Go App without Downtime
+
+▶ Blue/Green Deployment
+
+.image images/blue-green.png _ 950
+
+.caption e.g. swap Auto Scaling Groups
+
+Zero Downtime :)
+But this is not *Today's* *theme* ...
+
+* Deploy Go App without Downtime
+
+▶ Hot Deployment
+
+.image images/hot-deploy.png _ 860
+
+Upgrade app without dropping any requests :)
+*Today's* *theme* *!*
+
+* Graceful Upgrade
+.image images/graceful-upgrade.png _ 1000
+
+
+*Other*requirements*
+
+- *Daemonize* Go App (using daemontools, supervisor,  etc)
+.image images/layer.png _ 280
+
+* Good example : Goji running under Einhorn
+
+* Goji
+
+_the_minimalistic_web_framework_that_values_composability_and_simplicity_
+
+■ Features
+
+- ...
+- Automatic support for [[https://github.com/stripe/einhorn][Einhorn]], systemd, and more
+- Graceful shutdown, and zero-downtime graceful reload when combined with [[https://github.com/stripe/einhorn][Einhorn]]
+
+
+*What*is* [[https://github.com/stripe/einhorn][Einhorn]] ?
+
+_the_language-independent_shared_socket_manager_
+
+.image images/einhorn.png _ 250
+.caption [tips] _Einhorn_is_the_German_word_for_Unicorn._
+
+* Goji running under Einhorn
+
+Without changing application code !
+
+▶ *Daemonize*
+.code code/supervisord.conf
+
+*Einhorn*option*
+What kinds of ACK to expect from workers.
+
+	-m manual
+	=> process will speak to command socket when ready
+
+*Goji*option*
+A convenient way to bind to sockets.
+
+	-bind einhorn@0
+	=> binding to Einhorn sockets (including Einhorn ACK support)
+
+* [DEMO] Goji running under Einhorn
+
+.code code/goji.txt
+
+*Good* :)
+
+* example1 : facebookgo/grace
+
+* facebookgo/grace
+
+_Package_[[https://github.com/facebookgo/grace][ grace ]]_provides_a_library_that_makes_it_easy_to_build_socket_based_servers_that_can_be_gracefully_terminated_&_restarted_(that_is,_without_dropping_any_connections)._
+
+.code code/gracedemo.txt
+
+Master pid is *changed*.
+Not suitable for background daemon processes :(
+
+* facebookgo/httpdown combined with Einhorn
+
+* facebookgo/httpdown combined with Einhorn
+
+_Package_[[https://github.com/facebookgo/httpdown][ httpdown ]]_provides_a_library_that_makes_it_easy_to_build_a_HTTP_server_that_can_be_shutdown_gracefully_(that_is,_without_dropping_any_connections)._
+
+[[https://github.com/facebookgo/grace][grace]] package uses this package underneath.
+
+▶ Need Implements
+
+*facebookgo/httpdown*
+
+- 1. Communicates with the einhorn master from workers (e.g. send ACK).
+	# Use package go-einhorn
+	import github.com/stripe/go-einhorn
+- 2. Be able to receive SIGUSR2 signal (from the einhorn master and then graceful shutdown).
+	# Add SIGUSR2 signal
+	signal.Notify(..., syscall.SIGUSR2)
+
+* [DEMO] facebookgo/httpdown combined with Einhorn
+
+.code code/httpdown.txt
+
+*Good* :)
+
+* Summary

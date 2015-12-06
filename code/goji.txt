@@ -1,0 +1,21 @@
+### Start server ###
+[MASTER 57] INFO: Launching 1 new workers
+[MASTER 57] INFO: ===> Launched 77 (index: 0)
+2015/12/05 22:26:08 Starting Goji on 127.0.0.1:1234
+2015/12/05 22:26:08 bind: ACKing to einhorn
+...
+
+### Graceful Upgrade ###
+$ /usr/local/bin/einhornsh -c goji -e upgrade
+[MASTER 57] INFO: Reloading einhorn master..                  👈 Reload new binary(MASTER pid:57)
+[MASTER 57] INFO: Starting smooth upgrade from version 0...
+[MASTER 57] INFO: ===> Launched 93 (index: 1)
+2015/12/05 22:42:19.598610 Starting Goji on 127.0.0.1:1234    👈 New worker(pid:93)
+2015/12/05 22:42:19.598625 bind: ACKing to einhorn
+[MASTER 57] INFO: Received a manual ACK from 93
+[MASTER 57] INFO: Up to 1 / 1 manual ACKs
+[MASTER 57] INFO: Killing off 1 old workers.
+[MASTER 57] INFO: Sending USR2 to [77]
+2015/12/05 22:42:19 Goji received signal, gracefully stopping 👈 Graceful Shutdown(pid:77)
+2015/12/05 22:42:19 Goji stopped
+[MASTER 57] INFO: ===> Exited worker 77
