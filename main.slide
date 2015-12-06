@@ -3,10 +3,11 @@ Go Conference 2015 Winter
 Tags: golang, graceful update
 
 Yoshiki Nakagawa
-Infrastructure Engineer
+Infrastructure Engineer, pairs Division
 eureka, Inc.
+
 https://github.com/yyoshiki41
-http://esola.co
+[[http://esola.co][esola.co]]
 
 * Agenda
 - Deploy Go App without Downtime
@@ -30,10 +31,11 @@ But this is not *Today's* *theme* ...
 
 ▶ Hot Deployment
 
-.image images/hot-deploy.png _ 860
-
-Upgrade app without dropping any requests :)
 *Today's* *theme* *!*
+Upgrade app without dropping any requests :)
+
+.image images/hot-deploy.png _ 860
+.caption _Gopher_ by [[http://www.reneefrench.com][Renée French]]
 
 * Graceful Upgrade
 .image images/graceful-upgrade.png _ 1000
@@ -41,7 +43,7 @@ Upgrade app without dropping any requests :)
 
 *Other*requirements*
 
-- *Daemonize* Go App (using daemontools, supervisor,  etc)
+- *Daemonize* Go Server (using daemontools, supervisor,  etc)
 
 .image images/layer.png _ 280
 
@@ -57,12 +59,15 @@ _the_minimalistic_web_framework_that_values_composability_and_simplicity_
 - Automatic support for [[https://github.com/stripe/einhorn][Einhorn]], systemd, and more
 - Graceful shutdown, and zero-downtime graceful reload when combined with [[https://github.com/stripe/einhorn][Einhorn]]
 
+	# https://github.com/zenazn/goji/blob/master/bind/bind.go
+	If an option is not explicitly passed, the implementation will automatically
+	select between using "einhorn@0", "fd@3", and ":8000", depending on whether
+	Einhorn or systemd (or neither) is detected.
 
 *What*is* [[https://github.com/stripe/einhorn][Einhorn]] ?
+ > tips. Einhorn is the German word for Unicorn.
 
 _the_language-independent_shared_socket_manager_
-
-tips. Einhorn is the German word for Unicorn.
 
 * Goji running under Einhorn
 
@@ -126,3 +131,20 @@ _Package_[[https://github.com/facebookgo/httpdown][ httpdown ]]_provides_a_libra
 *Good* :)
 
 * Summary
+
+▶ *Graceful*Updates*with*Einhorn*
+
+Requirements (too much..)
+
+- Graceful Shutdown (e.g. facebookgo/httpdown)
+- Communicates with the einhorn master from workers (e.g. stripe/go-einhorn)
+- Receive SIGUSR2 signal (from the einhorn master and then graceful shutdown).
+
+▶ Other
+
+Server::Starter
+[[https://github.com/lestrrat/go-server-starter][lestrrat/go-server-starter]]
+
+[[https://github.com/facebookgo/grace][facebookgo/grace]]
+
+more....
