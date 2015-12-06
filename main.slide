@@ -15,6 +15,7 @@ https://github.com/yyoshiki41
 - Goji running under Einhorn
 - facebookgo/grace
 - facebookgo/httpdown combined with Einhorn
+- Summary
 
 * Deploy Go App without Downtime
 
