@@ -1,6 +1,7 @@
 # Graceful Upgrade for Go App
 
 Go Conference 2015 Winter
+
 Tags: golang, graceful update
 
 ## Slide
@@ -9,5 +10,5 @@ Tags: golang, graceful update
 ## Author
 Yoshiki Nakagawa
 
-https://github.com/yyoshiki41
-http://esola.co
+- https://github.com/yyoshiki41
+- http://esola.co
